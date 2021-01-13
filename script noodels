@@ -1,0 +1,940 @@
+import requests
+from bs4 import BeautifulSoup
+from geopy.geocoders import Nominatim
+import geopy
+import re
+import html5lib
+# url = "http://localhost/examp/noodel.html"
+#
+# r = requests.get(url)
+# htmlcontent = r.content
+soup = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title> Noodle Box </title>
+
+    <!--[if IE]>
+    <meta http-equiv="imagetoolbar" content="no" />
+    <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" id="vport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/apple-touch-icon.png?v=22cc428e">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/img/favicon-32x32.png?v=22cc428e">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/img/favicon-16x16.png?v=22cc428e">
+    <link rel="manifest" href="/public/img/site.webmanifest">
+    <link rel="mask-icon" href="/public/img/safari-pinned-tab.svg?v=22cc428e" color="#c00d0d">
+    <link rel="shortcut icon" href="/public/img/favicon.ico?v=22cc428e">
+    <meta name="msapplication-TileColor" content="#c00d0d">
+    <meta name="msapplication-config" content="/public/img/browserconfig.xml?v=22cc428e">
+    <meta name="theme-color" content="#ffffff">
+    
+    
+    
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="Noodle Box" />
+        <meta property="og:url" content="https://noodlebox.com.au" />
+    <meta property="og:site_name" content="Noodle Box" />
+
+
+    
+    <script type="text/javascript" src="/public/lib/jquery-3.4.1.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=Array.prototype.find,Promise,Object.assign,Element.prototype.closest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/public/lib/bootstrap-4.4.1/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/public/lib/bootstrap-4.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="public/lib/plyr-3.6.3/plyr.polyfilled.min.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="public/css/plyr.css?v=22cc428e" />
+	<link rel="stylesheet" type="text/css" href="public/css/content.css?v=22cc428e" />
+    <link rel="stylesheet" type="text/css" href="/public/css/structure.css?v=22cc428e" />
+    
+    <script type="text/javascript" src="/public/js/globals.js?v=22cc428e"></script>
+    <script type="text/javascript" src="/public/js/main.min.js?v=22cc428e"></script>
+
+    
+    
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-K2643CS');</script>
+        <!-- End Google Tag Manager -->
+
+</head>
+<body>
+    
+
+
+
+
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2643CS"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+
+<header>
+    <div class="inner">
+        <div class="logo"><a href="https://noodlebox.com.au"></a></div>
+        <nav class="menu">
+            <ul>
+                <li><a href="https://noodlebox.com.au#our-origin" data-event-category="navigation" data-event-label="our origin" data-anchor-scroll="true">OUR ORIGIN</a></li>
+                <li><a href="https://noodlebox.com.au#our-food" data-event-category="navigation" data-event-label="menu" data-anchor-scroll="true">OUR FOOD</a></li>
+                <li><a href="https://noodlebox.com.au#locations" data-event-category="navigation" data-event-label="locations" data-anchor-scroll="true">LOCATIONS</a></li>
+                <li><a href="https://noodlebox.com.au/franchising">FRANCHISING</a></li>
+            </ul>
+        </nav>
+        <div class="order-now"><a href="https://noodlebox.com.au#locations" data-event-category="navigation" data-event-label="menu" data-anchor-scroll="true" class="btn-outline"><div class="icon"></div>ORDER NOW</a></div>
+        <div class="navigation">
+            <div class="hamburger hamburger--spin">
+                <div class="hamburger-box">
+                    <div class="hamburger-inner"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div id="mobile-menu" class="m4-modal">
+    <div class="inner">
+        <div class="menu-header" data-background="/resources/menu-header.jpg"></div>
+        <nav class="menu">
+            <ul>
+                <li><a href="https://noodlebox.com.au#our-origin" data-event-category="navigation" data-event-label="our origin" data-anchor-scroll="true">OUR ORIGIN</a></li>
+                <li><a href="https://noodlebox.com.au#our-food" data-event-category="navigation" data-event-label="menu" data-anchor-scroll="true">OUR FOOD</a></li>
+                <li><a href="https://noodlebox.com.au#locations" data-event-category="navigation" data-event-label="locations" data-anchor-scroll="true">LOCATIONS</a></li>
+                <li><a href="https://noodlebox.com.au/franchising">FRANCHISING</a></li>
+            </ul>
+        </nav>
+        <div class="footer">
+            <div class="order-now"><a href="https://noodlebox.com.au#locations" data-event-category="navigation" data-event-label="menu" data-anchor-scroll="true" class="btn-outline"><div class="icon"></div>ORDER NOW</a></div>
+        </div>
+        <div class="footer-end">
+            <ul class="soxial">
+                <li><a href="https://www.facebook.com/NoodleBoxAustralia/" target="_blank" class="soxial-facebook"></a></li>
+                <li><a href="https://www.instagram.com/noodleboxau/" target="_blank" class="soxial-instagram"></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="main">
+      
+        <section class="hero">
+<h1>WOK INSPIRED.<br/>MARKET FRESH.</h1>
+</section>
+
+        <section class="section red original">
+			<a tabindex="0" class="section-anchor" id="our-origin"></a>
+			<div class="rotator">
+				<div class="inner">
+					<div class="item">FLAMING WOKS.</div>
+					<div class="item outline">UNFORGETTABLE FLAVOURS.</div>
+					<div class="item">FLAMING WOKS.</div>
+					<div class="item outline">UNFORGETTABLE FLAVOURS.</div>
+				</div>
+			</div>
+			<div class="inner">
+				<div class="row">
+					<div class="col-sm-6">
+						<p>Rewind 24 years, two young Aussies took their taste buds on an adventure to Southeast Asia, discovering a cultural melting-pot of flavours and authentic cuisines bursting from the vibrant hawker food markets. Returning back to Australia richly inspired and armed with a wok in hand, Noodle Box was born.</p>
+					</div>
+					<div class="col-sm-6">
+						<p>Today, Noodle Box is Australia’s most loved noodle brand with 70+ restaurants across Australia. Our mission is simple, to inspire nostalgia of the bustling Southeast Asian hawker street markets by delivering authentic dishes that pack intense flavours, fresh crunch, fiery heat and unforgettable wok-char.</p>
+					</div>
+				</div>
+			</div>
+			<div class="original-strap"></div>
+			<div class="fresh pak-choi"><div class="veg"></div></div>
+		</section>
+
+
+<section class="section white foodmenu">
+    <a tabindex="0" class="section-anchor" id="our-food"></a>
+            <div class="rotator">
+            <div class="inner">
+                <div class="item">CRAVING ADVENTURE?</div>
+                <div class="item outline">CRAVING ADVENTURE?</div>
+                <div class="item">CRAVING ADVENTURE?</div>
+                <div class="item outline">CRAVING ADVENTURE?</div>
+            </div>
+        </div>        
+    <div class="inner">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="menu-intro">
+                    <h3>Home to where wok reigns supreme!</h3>
+                    <p>While we believe in celebrating the best of homegrown, market fresh ingredients, origin inspired and locally-made signature sauces, and the fiery theatre of the wok, it is our flame-taming wok-chefs that are our key ingredient to every dish.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+                <div class="col-sm-6">
+                        <div class="menu-group">
+                            <h2>Noodle Specialties</h2>
+
+                                                            <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Combination</div>
+                                        <div class="menu-summary">Char siu pork, beef, chicken, prawn, shrimp with thin egg noodles, tossed with fresh bean shoots, spring onion, green capsicum, carrot, bok choy, onion in rich oyster sauce.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">2247Kj</span>Reg<span class="menu-kj">3891Kj</span>Big<span class="menu-kj">4252Kj</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Teriyaki<div class="menu-guide veg"></div></div>
+                                        <div class="menu-summary">Chicken with thick egg noodles, fresh bean shoots, spring onion, green capsicum, carrot, bok choy, broccoli & onion in a ginger soy sauce.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">2411Kj</span>Reg<span class="menu-kj">4175Kj</span>Big<span class="menu-kj">45631Kj</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Satay<div class="menu-guide veg"></div></div>
+                                        <div class="menu-summary">Chicken with thick egg noodles, fresh bean shoots,
+spring onion, green capsicum, carrot, bok choy, broccoli &
+onion, in a rich peanut curry sauce.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">2739KJ</span>Reg<span class="menu-kj">4743KJ</span>Big<span class="menu-kj">5184KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Garlic Prawns</div>
+                                        <div class="menu-summary">Garlic prawns with thick egg noodles, with fresh onion, snow peas, broccoli, bok choy & spring onion in a rich oyster sauce.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">2100KJ</span>Reg<span class="menu-kj">3600KJ</span>Big<span class="menu-kj">5052KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Pad Thai<div class="menu-guide mild"></div></div>
+                                        <div class="menu-summary">Chicken with pad thai noodles, egg, fresh bean shoots, spring onion, egg, coriander, chilli & crushed peanuts, with a light tangy soy sauce.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">2669KJ</span>Reg<span class="menu-kj">4622KJ</span>Big<span class="menu-kj">5052KJ </span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                        </div>
+                        <div class="menu-group">
+                            <h2>Noodle Classics</h2>
+
+                                                            <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Honey Soy</div>
+                                        <div class="menu-summary">Chicken with thick egg noodles, fresh bok choy, spring onions, carrot, baby corn, onion & cashew nuts in a honey soy sauce.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">2571KJ</span>Reg<span class="menu-kj">4452KJ</span>Big<span class="menu-kj">4452KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Black Bean<div class="menu-guide veg"></div></div>
+                                        <div class="menu-summary">Beef with thick egg noodles, fresh spring onion, bean shoots, broccoli & onion in a rich blackbean sauce.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">2202KJ</span>Reg<span class="menu-kj">3813KJ</span>Big<span class="menu-kj">4163KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Mongolian<div class="menu-guides"><div class="menu-guide mild"></div><div class="menu-guide veg"></div></div></div>
+                                        <div class="menu-summary">Beef with thick egg
+noodles, fresh spring onion,
+green capsicum, carrot, bok
+choy, bean shoots, broccoli &
+onion in a rich Mongolian peppery sauce.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">3067KJ</span>Reg<span class="menu-kj">5311KJ</span>Big<span class="menu-kj">5804KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Singapore<div class="menu-guide medium"></div></div>
+                                        <div class="menu-summary">Shrimp & char siu pork with thin rice noodles, egg , fresh spring onion, bean shoots & green capsicum in a fragrant curry sauce.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">2448KJ</span>Reg<span class="menu-kj">4239KJ</span>Big<span class="menu-kj">4633KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Kway Teow</div>
+                                        <div class="menu-summary">Shrimp & char siu pork with flat rice noodles, egg, fresh onion, bean shoots & spring onion in a rich oyster sauce.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">2936KJ</span>Reg<span class="menu-kj">5138KJ</span>Big<span class="menu-kj">5556KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Hot + Spicy<div class="menu-guides"><div class="menu-guide hot"></div><div class="menu-guide veg"></div></div></div>
+                                        <div class="menu-summary">Char siu pork, beef and chicken with thin egg noodles, fresh carrot, bean shoots, bok choy, spring onion, green capsicum & onion in a chilli sauce.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">2431KJ</span>Reg<span class="menu-kj">4210KJ</span>Big<span class="menu-kj">4602KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                        </div>
+                </div>
+                <div class="col-sm-6">
+                        <div class="menu-group">
+                            <h2>Rice Favourites</h2>
+
+                                                            <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Fried Rice</div>
+                                        <div class="menu-summary">Shrimp, char siu pork, egg, peas, bean shoots & spring onion finished with wok-charred flavour.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">3313KJ</span>Reg<span class="menu-kj">5737KJ</span>Big<span class="menu-kj">6411KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Nasi Goreng<div class="menu-guide mild"></div></div>
+                                        <div class="menu-summary">Egg fried rice with char siu
+pork, shrimp, fresh bean
+shoots, spring onion, green
+peas & fried shallots with a
+hint of sweet curry.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">2870KJ</span>Reg<span class="menu-kj">4970KJ</span>Big<span class="menu-kj">5432KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Japanese Crispy Chicken with Egg Rice</div>
+                                        <div class="menu-summary">Crispy chicken with sweet chilli
+mayonnaise & egg fried rice.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">3231KJ</span>Reg<span class="menu-kj">4192KJ</span>Big<span class="menu-kj">4968KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Sweet + Sour Pork</div>
+                                        <div class="menu-summary">Golden pork with
+capsicum, pineapple & onion in
+a sweet & sour sauce with
+steamed rice.</div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">2951KJ</span>Reg<span class="menu-kj">4892KJ</span>Big<span class="menu-kj">5459KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                        </div>
+                        <div class="menu-group">
+                            <h2>SIDES<span class="menu-price">SOMETHING ELSE?</span></h2>
+
+                                                            <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Veggie Spring Rolls</div>
+                                        <div class="menu-summary"></div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">2 pce<span class="menu-kj">1200KJ</span>4 pce <span class="menu-kj">2400KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Chicken Dim Sims</div>
+                                        <div class="menu-summary"></div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">2 pce<span class="menu-kj">1512KJ</span>4 pce<span class="menu-kj">3024KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Panko Prawn</div>
+                                        <div class="menu-summary"></div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">2 pce<span class="menu-kj">1008KJ</span>4 pce<span class="menu-kj">2016KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Crunchy Pork Wonton</div>
+                                        <div class="menu-summary"></div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">3 pce<span class="menu-kj">1130KJ</span>6 pce<span class="menu-kj">2260KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Steamed Rice</div>
+                                        <div class="menu-summary"></div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">Sml<span class="menu-kj">1342KJ</span>Reg<span class="menu-kj">2013KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                                <div class="menu-item">
+                                    <div class="menu-body">
+                                            <div class="menu-title">Prawn Crackers</div>
+                                        <div class="menu-summary"></div>
+                                    </div>
+                                    <div class="menu-right">
+                                        <div class="menu-price"></div>
+                                    </div>
+                                </div>
+                                    <div class="menu-item menu-item-addition">
+                                        <div class="menu-body">
+                                            <div class="menu-title"><span class="text-red">1 Bag<span class="menu-kj">137KJ</span></span></div>
+                                        </div>
+                                        <div class="menu-right">
+                                            <div class="menu-price"></div>
+                                        </div>
+                                    </div>
+                        </div>
+                </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-center pt-3">
+                <div class="menu-legend">
+                    <div class="menu-guide mild">MILD</div>
+                    <div class="menu-guide medium">MEDIUM</div>
+                    <div class="menu-guide hot">HOT</div>
+                    <div class="menu-guide vegan">VEGAN</div>
+                    <div class="menu-guide veg">VEGETARIAN</div>
+                    <div class="menu-guide gluten-free">GLUTEN<br />FREE</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-footer">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="menu-extras">
+                        <a href="/media/i2mfuv1f/nbx-vegan-veg-gluten-free.pdf" target="_blank" class="btn-red slim">Vegan &amp; GF Menu</a>
+                                                    <a href="/media/egyjcni1/nbx-allergen-guide.pdf" target="_blank" class="btn-red slim">Allergen Guide</a>
+                        <div class="order-now">
+                            <a href="#locations" class="btn-solid large" data-event-category="navigation" data-event-label="locations" data-anchor-scroll="true">Order Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="fresh ginger"><div class="veg"></div></div>
+	<div class="fresh coriander"><div class="veg"></div></div>
+	<div class="fresh broccoli"><div class="veg"></div></div>
+	<div class="fresh shallots"><div class="veg"></div></div>
+	<div class="fresh chilli"><div class="veg"></div></div>
+	<div class="fresh snowpeas"><div class="veg"></div></div>
+</section>        <section class="section red overlay overlay-90" data-background="resources/nbx-background-01.jpg">
+			<a tabindex="0" class="section-anchor" id="statistics"></a>
+			<div class="inner">
+				<div class="statistics">
+					<div class="item guests">
+						<div class="icon"></div>
+						<div class="details">
+							<div class="figure">60,000</div>
+							<div class="metric">GUESTS SERVED EVERY WEEK</div>
+						</div>
+					</div>
+					<div class="item dishes">
+						<div class="icon"></div>
+						<div class="details">
+							<div class="figure">2.8M</div>
+							<div class="metric">DISHES MADE FRESH EVERY YEAR</div>
+						</div>
+					</div>
+					<div class="item noodles">
+						<div class="icon"></div>
+						<div class="details">
+							<div class="figure">1M <span>kg</span></div>
+							<div class="metric">NOODLES SOLD EVERY YEAR</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+<section class="section gallery" data-gallery="/admin/surface/data/imageslider?id=1066">
+</section>        <section class="section content-columns">
+			<div class="row">
+				<div class="col-lg-6 content-column">
+					<section class="section pane" data-background="resources/nbx-whitewood.jpg">
+						<div class="inner">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="section-title">LOOKING TO WOK<br />YOUR NEXT EVENT?</div>
+									<p class="section-summary">Contact your local Noodle Box to organise catering for your next event.</p>
+									<div class="section-link"><a href="#locations" data-event-category="navigation" data-event-label="locations" data-anchor-scroll="true" class="btn-solid">Locations</a></div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+				<div class="col-lg-6 content-column">
+					<section class="section red overlay overlay-90 pt-large pb-large" data-background="resources/nbx-buildabox.jpg">
+						<div class="inner">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="section-title">CREATE YOUR OWN</div>
+									<p class="section-summary">Choose your own adventure!<div class="nbx-icon-group"></div>
+									</p>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+		</section>
+
+        <section class="section black overlay overlay-40 nbx-image-break" data-background="resources/nbx-street.jpg">
+			<div class="nbx"></div>
+		</section>
+
+
+<section class="section locations" data-locations="/admin/surface/data/locationsdata">
+        <a tabindex="0" class="section-anchor" id="locations"></a>
+    <div class="map"></div>
+    <div class="panel">
+		<div class="device"></div>
+		<div class="search">
+			<div class="search-strap"></div>
+			<div class="search-bar">
+				<input type="text" class="search-location" placeholder="Enter suburb or postcode" />
+				<div class="search-btn">GO</div>
+			</div>
+		</div>
+	</div>
+</section>        <section class="section rewards">
+			<div class="inner">
+				<div class="row align-items-center">
+					<div class="col-sm-6">
+						<div class="conceptate-rewards"></div>
+					</div>
+					<div class="col-sm-6">
+						<div class="new-rewards"></div>
+						<p>50% off your first item<br />Birthday Reward Credit<br />Earn 1 point every $1 spent<br />200 Points = $10 Reward Credit</p>
+						<div class="coming-soon">ORDER AHEAD &amp; DELIVERY COMING SOON</div>
+						<div class="app-btns">
+							<div class="btn-appstore"><a href="https://apps.apple.com/au/app/concept-ate-rewards/id1539578913" target="_blank"></a></div>
+							<div class="btn-googleplay"><a href="https://play.google.com/store/apps/details?id=au.com.redcat.concept8" target="_blank"></a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+        <section class="section pane" data-background="resources/nbx-market.jpg">
+			<div class="inner">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="section-title">INTERESTED IN A<br />WOK-STAR CAREER?</div>
+						<p class="section-summary">When you join Noodle Box you are joining a family who are passionate towards accelerating your growth within hospitality. To learn more about our available opportunities, please contact your local Noodle Box.</p>
+						<div class="section-link"><a href="#contact-us" data-event-category="navigation" data-event-label="contact us" data-anchor-scroll="true" class="btn-solid">Contact Us</a></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+<section class="section contact" style="background-image:url('/media/5chnombj/nbx-background-01.jpg?mode=max&width=1400&height=933&rnd=132519021028330000');">
+    <a tabindex="0" class="section-anchor" id="contact-us"></a>
+    <div class="inner">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title">CONTACT US</div>
+                <p class="section-summary"></p>
+            </div>
+        </div>        
+        <div id="umbraco_form_e9a5a34af61f4b2994a22f338a3e4b13" class="umbraco-forms-form contact umbraco-forms-contact">
+
+<form action="/" enctype="multipart/form-data" method="post"><input name="__RequestVerificationToken" type="hidden" value="p011dr_qyRFUDJxp_yZRN1E3zxN3xIqbknPGvFli2JbF1JAcUaOg6sGHHkvpatnn0YXqNZTa4_F3ckNLQFn3PFB1ewx7Mf0yIV16_RU8Mjw1" /><input data-val="true" data-val-required="The FormId field is required." name="FormId" type="hidden" value="e9a5a34a-f61f-4b29-94a2-2f338a3e4b13" /><input name="FormName" type="hidden" value="Contact" /><input data-val="true" data-val-required="The RecordId field is required." name="RecordId" type="hidden" value="00000000-0000-0000-0000-000000000000" /><input name="PreviousClicked" type="hidden" value="" /><input name="Theme" type="hidden" value="contact" />            <input type="hidden" name="FormStep" value="0" />
+            <input type="hidden" name="RecordState" value="RjFGMTI4RjJDM0Q5QUM4OTZGOUE4QkU0OTIzRDUxRDZDMjREOTE4NkNEOEU3OTkyMTM2RDg3NzNBQkJBMkE2MDc0MTZBOEQ2ODIwMzkwQzQ2OTc3MkQ2NDVCRTY2Qzk4QzkzQzkzRDQ1ODBFN0QzNkJCMEYxMTA4ODNERkMyNDE5QUFCNEVBQ0Y5Q0JGMTMxMzdDNENEQUIwQ0NGRkFGMEQ2MTgzQUVEMDZBMUY1RjA4NEYxMUNCRUU0QjFDMjZCOUI5MEI3REZENEExQjk1RjVFQzYxODFBMDk4QTM5MDAzMDNEMkFFMzJFRTAwMjUyMDgyNzk0NDgzN0FFREFEODAzMEE0ODJGOTNBN0ZGNUY5QzVBMzgwMzczNjY2RDZCNkJDOEFGODZCQTQyNTQ4QkYzRTZGMzlDMTlGOEEyQjdENzE3MDdFQjdGMjYxMDgwMDk0MkI1ODlCMjgwODc4NEU1MDVFMzJENzk3RjlBRkVBQTgxRjM3Q0Q1MTNFNTExNjIyQUUxOUIyOERCQkMxQkVCQzQ2MzVBODA1NzU4OTEwN0UxRjM4QzQzQTJEODI5NDU3MEM5RDI5NEU4RUE0OTA5MEY3MTA3NkJGOEJBQjdDNEZDMkRCQUVFMzIyOTgxQTA3NzlDM0MwNjA3Q0YxQTU4QkNDMjk0REEzNEFDNDk1NDIwRTA2NEQ2Q0Y5Q0E5NzNFRkUzQUU1RkE5QzQ1MkRGQjBGMjBDM0U5QzlGNjAxOUU0RThENzAyNTRFRUFDMTUwMjNBNUJDMTc3OEM1N0UyOTFCRjQ3MzZDOEVGQzYzRjVCMTEzNTIxNTRBNUFCMDZENEE2NjA4MkQyQzYxQURBRTc1QzkxRTA5RjM5OTYwMTc5NjUxMzYzMkQ3MzlERjQ5QzYwNUY2QzcwRDdFNjkwMDUzODUwRTIyM0JGNjk1RTNDMjVGQ0YzOTM0MkFDMDcwNzExRDVBNjQxQUZDNEZGRjZENjYyOEEyNTRGRDRDMTUwNzU0MjY5MDcxREQxM0RFQ0YxQjc1MUM4RENFQzE4RUVBQzk2NDBCOTVCNERDQzE5OUNGOUNGMEUzOTAxMTg3ODBFQUFBMEJDQjBCQjY4OTBFOTc4MjU2NjI4ODRGQkJDMEQ0N0Y2MTI2N0QyMDBFMTZDQTc4RjVBMEM5QUVBODFGODk1RkI5QUU5QTg4OTU0NjI5NzE2QkYyNDA0QzcyMEUzMTQxNTYyMjZFQjgzOTJGRTlFQUU2RDZCQjEyOEM1RjE1QTE1OTE4QjY4Q0E1Mjg1QTU2RTI1MDAxMzc3ODM5MEM3MTlDNERDMTY0QzIxNkJCQUEyQzUyODk5NDM2NUMxRkEyMDg0QUNENTBCQ0ZGODMzRDMwQjNGMkFDODNEMkE5MUFCNEY2N0ZG" />
+
+
+
+<div style="display: none" aria-hidden="true">
+    <input type="text" name="e9a5a34af61f4b2994a22f338a3e4b13" />
+</div>
+
+<div class="row max-md">
+            <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="67ab7666-17f2-4417-fd0c-68753a277193" class="control-label">*</label>
+                            
+
+<input type="text" class="form-control" id="67ab7666-17f2-4417-fd0c-68753a277193" name="67ab7666-17f2-4417-fd0c-68753a277193"  placeholder="Subject" autocomplete="off" spellcheck="false"  />
+
+
+                        </div>
+                        <div class="form-group">
+                            <label for="74218cd9-8ed8-4316-849d-9c98726952b0" class="control-label">*</label>
+                            
+
+<input type="text" class="form-control" id="74218cd9-8ed8-4316-849d-9c98726952b0" name="74218cd9-8ed8-4316-849d-9c98726952b0"  placeholder="Name" autocomplete="off" spellcheck="false"  data-valid-required="true" data-valid="string" data-valid-min="2" />
+
+
+                        </div>
+                        <div class="form-group">
+                            <label for="d3dde890-16b6-4386-93ad-16018bd7a042" class="control-label">*</label>
+                            
+
+<input type="text" class="form-control" id="d3dde890-16b6-4386-93ad-16018bd7a042" name="d3dde890-16b6-4386-93ad-16018bd7a042"  placeholder="Email" autocomplete="off" spellcheck="false"  data-valid-required="true" data-valid="email" />
+
+
+                        </div>
+            </div>
+            <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="5daedeab-85bc-48e9-9244-6ddd11cf9a3a" class="control-label">*</label>
+                            
+<select class="m4-selectpicker" name="5daedeab-85bc-48e9-9244-6ddd11cf9a3a" id="5daedeab-85bc-48e9-9244-6ddd11cf9a3a" data-placeholder="Restaurant">    
+        <option value="Altona - VIC" >Altona - VIC</option>
+        <option value="Ballarat - VIC" >Ballarat - VIC</option>
+        <option value="Bendigo - VIC" >Bendigo - VIC</option>
+        <option value="Chirnside Park - VIC" >Chirnside Park - VIC</option>
+        <option value="Geelong - VIC" >Geelong - VIC</option>
+        <option value="Greensborough - VIC" >Greensborough - VIC</option>
+        <option value="Hawthorn - VIC" >Hawthorn - VIC</option>
+        <option value="Knox - VIC" >Knox - VIC</option>
+        <option value="Malvern - VIC" >Malvern - VIC</option>
+        <option value="Moonee Ponds - VIC" >Moonee Ponds - VIC</option>
+        <option value="Mornington - VIC" >Mornington - VIC</option>
+        <option value="Port Melbourne - VIC" >Port Melbourne - VIC</option>
+        <option value="Shepparton - VIC" >Shepparton - VIC</option>
+        <option value="Warrnambool - VIC" >Warrnambool - VIC</option>
+        <option value="Ballina - NSW" >Ballina - NSW</option>
+        <option value="Fulham Gardens - SA" >Fulham Gardens - SA</option>
+        <option value="Gawler - SA" >Gawler - SA</option>
+        <option value="Glenelg - SA" >Glenelg - SA</option>
+        <option value="Golden Grove - SA" >Golden Grove - SA</option>
+        <option value="Marryatville - SA" >Marryatville - SA</option>
+        <option value="Mount Barker - SA" >Mount Barker - SA</option>
+        <option value="Munno Para - SA" >Munno Para - SA</option>
+        <option value="Salisbury - SA" >Salisbury - SA</option>
+        <option value="Unley Malvern - SA" >Unley Malvern - SA</option>
+        <option value="Burnie - TAS" >Burnie - TAS</option>
+        <option value="Devonport - TAS" >Devonport - TAS</option>
+        <option value="Kings Meadows - TAS" >Kings Meadows - TAS</option>
+        <option value="Mowbray - TAS" >Mowbray - TAS</option>
+        <option value="Albany Creek - QLD" >Albany Creek - QLD</option>
+        <option value="Arundel - QLD" >Arundel - QLD</option>
+        <option value="Ashmore - QLD" >Ashmore - QLD</option>
+        <option value="Beenleigh - QLD" >Beenleigh - QLD</option>
+        <option value="Benowa Village - QLD" >Benowa Village - QLD</option>
+        <option value="Biggera Waters - QLD" >Biggera Waters - QLD</option>
+        <option value="Birkdale - QLD" >Birkdale - QLD</option>
+        <option value="Boondall - QLD" >Boondall - QLD</option>
+        <option value="Bracken Ridge - QLD" >Bracken Ridge - QLD</option>
+        <option value="Brinsmead - QLD" >Brinsmead - QLD</option>
+        <option value="Broadbeach - QLD" >Broadbeach - QLD</option>
+        <option value="Brookwater - QLD" >Brookwater - QLD</option>
+        <option value="Caboolture - QLD" >Caboolture - QLD</option>
+        <option value="Calamvale - QLD" >Calamvale - QLD</option>
+        <option value="Cannon Hill - QLD" >Cannon Hill - QLD</option>
+        <option value="Carindale - QLD" >Carindale - QLD</option>
+        <option value="Chermside - QLD" >Chermside - QLD</option>
+        <option value="Coolangatta - QLD" >Coolangatta - QLD</option>
+        <option value="Deeragun Townsville - QLD" >Deeragun Townsville - QLD</option>
+        <option value="Fairfield Waters Townsville - QLD" >Fairfield Waters Townsville - QLD</option>
+        <option value="Jimboomba - QLD" >Jimboomba - QLD</option>
+        <option value="Kenmore - QLD" >Kenmore - QLD</option>
+        <option value="Keperra - QLD" >Keperra - QLD</option>
+        <option value="Kirwan Townsville - QLD" >Kirwan Townsville - QLD</option>
+        <option value="Loganholme - QLD" >Loganholme - QLD</option>
+        <option value="Miami - QLD" >Miami - QLD</option>
+        <option value="Mooloolaba - QLD" >Mooloolaba - QLD</option>
+        <option value="Morayfield - QLD" >Morayfield - QLD</option>
+        <option value="Nerang - QLD" >Nerang - QLD</option>
+        <option value="Nundah - QLD" >Nundah - QLD</option>
+        <option value="Oxenford - QLD" >Oxenford - QLD</option>
+        <option value="Pacific Pines - QLD" >Pacific Pines - QLD</option>
+        <option value="Palm Beach - QLD" >Palm Beach - QLD</option>
+        <option value="Park Ridge - QLD" >Park Ridge - QLD</option>
+        <option value="Redcliffe - QLD" >Redcliffe - QLD</option>
+        <option value="Robina - QLD" >Robina - QLD</option>
+        <option value="Southport - QLD" >Southport - QLD</option>
+        <option value="Stones Corner - QLD" >Stones Corner - QLD</option>
+        <option value="Strathpine - QLD" >Strathpine - QLD</option>
+        <option value="The Lakes Townsville - QLD" >The Lakes Townsville - QLD</option>
+        <option value="Toowomba - QLD" >Toowomba - QLD</option>
+        <option value="Waterford West - QLD" >Waterford West - QLD</option>
+        <option value="Worongary - QLD" >Worongary - QLD</option>
+        <option value="Yamanto - QLD" >Yamanto - QLD</option>
+</select>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="50b210bd-0480-4382-a8a8-cb614c8aa8cf" class="control-label">*</label>
+                            
+<textarea class="form-control" id="50b210bd-0480-4382-a8a8-cb614c8aa8cf" name="50b210bd-0480-4382-a8a8-cb614c8aa8cf"  placeholder="Message" autocomplete="off" spellcheck="false" rows="5"  data-valid-required="true" data-valid="string"></textarea>
+                        </div>
+            </div>            
+</div>
+<div class="row max-md">
+    <div class="col-md-12">
+        <div class="loader-holder">
+            <div class="loader">&nbsp;</div>
+        </div>
+        <div class="complete-message"></div>
+        <div class="form-group-buttons">
+            <div class="form-group">
+                <input type="submit" class="btn-submit" onclick="return m4.contact(this.form);" value="SEND" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<input name="ufprt" type="hidden" value="58AF28077F06A268179D2F65BCEB36EECF304EB914DAAFD060F29B7FAEFE86C4028E79A13492EA865F4AA7142F63167071AE95361B667890E31928BCC6E8C85F232E7B44D942C52D1F3D507AA654163CF486F9DF0EFFE66582904C81954FCA9B9C4606DF61DA6AA011FF8AEC2B2C6E4173AF4EBB58484CD26BD8E7FE479E78D3B4F62AEDA2EC3787EC9230DBE8F4E46B" /></form>
+
+        
+    </div>        
+    </div>
+</section>
+<footer>
+    <div class="inner">
+        <div class="logo"><a href="https://noodlebox.com.au"></a></div>
+        <div class="menu">
+            <ul>
+                <li><a href="https://noodlebox.com.au#our-origin" data-event-category="navigation" data-event-label="our origin" data-anchor-scroll="true">OUR ORIGIN</a></li>
+                <li><a href="https://noodlebox.com.au#our-food" data-event-category="navigation" data-event-label="menu" data-anchor-scroll="true">OUR FOOD</a></li>
+                <li><a href="https://noodlebox.com.au#locations" data-event-category="navigation" data-event-label="locations" data-anchor-scroll="true">LOCATIONS</a></li>
+                <li><a href="https://noodlebox.com.au/franchising">FRANCHISING</a></li>
+            </ul>
+        </div>
+        <ul class="soxial">
+            <li><a href="https://www.facebook.com/NoodleBoxAustralia/" target="_blank" class="soxial-facebook"></a></li>
+            <li><a href="https://www.instagram.com/noodleboxau/" target="_blank" class="soxial-instagram"></a></li>
+        </ul>
+    </div>
+    <div class="footer-end">
+        <nav>
+            <ul>
+                <li><a href="https://noodlebox.com.au#contact-us" data-event-category="navigation" data-event-label="contact us" data-anchor-scroll="true">Contact Us</a></li>
+                <li><a href="https://concepteight.com.au/conceptate/terms-and-conditions/" target="_blank">Terms &amp; Conditions</a></li>
+                <li><a href="https://concepteight.com.au/privacy-policy" target="_blank">Privacy</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="fresh chilli"><div class="veg"></div></div>
+    <div class="fresh thai-basil"><div class="veg"></div></div>
+    <div class="fresh pak-choi"><div class="veg"></div></div>
+</footer>
+
+</div>
+
+
+    
+    
+
+</body>
+</html>'''
+
+# print(soup.prettify())	# to print html in tree structure
+
+# print(soup.find_all("div", class_="location-text para-text"))
+mdiv = soup.find('div',class_="selectize-dropdown-content")
+namediv = mdiv.find_all('div', class_="option-name")
+adrdiv = mdiv.findAll('div', class_="option-address",text=True)
+faddr = [row.text for row in adrdiv]
+fname = [row.text for row in namediv]
+print(faddr)
+print(fname)
+print(len(fname))
+print(fname[0])
+
+p = 0  # initial place in array
+l = len(fname) - 1
+flat = []
+flong = []
+f = open('noodel20_data.csv', 'a')
+f.write("Name,Address,latitude,Longitude\n")
+while p < l:
+    for adr in faddr:
+        try:
+            address = adr.split(",")
+            locator = Nominatim(user_agent="myGeocoder")
+            location = locator.geocode(address[-1:])
+            x = location.latitude
+            y = location.longitude
+            f.write(str(fname[p]) + ", ")
+            f.write(str(x) + ", ")
+            f.write(str(y) + ", ")
+            f.write(str(faddr[p]) + "\n")
+            p = p + 1
+        except:
+            print(fname[p], faddr[p])
+
+f.close()  # close file
